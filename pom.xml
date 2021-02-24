@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <!--CONFIG & NAMING -->
+
+    <groupId>uk.co.marvel</groupId>
+    <artifactId>character</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Marvel :: Character</name>
+    <description>Character :: Service providing Character details</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <!---->
+
+    <!--CHILD MODULES -->
+
+    <modules>
+
+        <module>character-service</module>
+
+    </modules>
+
+    <!---->
+
+
+    <!-- JAVA -->
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
+    <!---->
+
+
+</project>
