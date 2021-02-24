@@ -102,7 +102,7 @@ public class CharacterServiceImpl {
         return charactersList;
     }
 
-    public MarvelResponse fetchCharacterIdsResponse(Integer limit, Integer offset) {
+    private MarvelResponse fetchCharacterIdsResponse(Integer limit, Integer offset) {
         var charactersRequest = requestBuilder.buildGetCharactersRequest(limit, offset);
         MarvelResponseContainer response = restClient.get(charactersRequest);
         return Objects.nonNull(response) ? response.getData() : null;

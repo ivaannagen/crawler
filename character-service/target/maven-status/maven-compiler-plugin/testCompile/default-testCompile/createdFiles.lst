@@ -1,2 +1,4 @@
 uk/co/marvel/character/utils/HashUtilsTest.class
+uk/co/marvel/character/endpoint/CharacterEndpointTest.class
 uk/co/marvel/character/CharacterApplicationTest.class
+uk/co/marvel/character/client/RequestBuilderTest.class

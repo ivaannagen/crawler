@@ -11,6 +11,7 @@
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/services/CharacterServiceImpl.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/repository/AbstractCRUD.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/utils/ObjectUnwrapper.java
+/Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/endpoint/CharacterEndpoint.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/data/entities/Character.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/repository/CharactersRepository.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/configuration/InternalRequestInterceptor.java

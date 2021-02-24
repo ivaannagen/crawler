@@ -17,17 +17,6 @@ public class ObjectUnwrapper<T> {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public T unwrapObject(Object obj, Class<T> clazz) {
-        try {
-            return objectMapper.convertValue(obj, clazz);
-        }
-
-        catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-            throw new CharacterException(HttpStatus.INTERNAL_SERVER_ERROR, UNMARSHAL_ERROR);
-        }
-    }
-
     public List<T> unwrapCollection(Object obj, Class<T> clazz) {
         try {
             JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);

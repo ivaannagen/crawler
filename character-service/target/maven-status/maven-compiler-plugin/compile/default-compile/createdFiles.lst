@@ -29,4 +29,5 @@ uk/co/marvel/character/CharacterApplication.class
 uk/co/marvel/character/utils/HashUtils.class
 uk/co/marvel/character/exceptions/CharacterExceptionHandler.class
 uk/co/marvel/character/api/CharacterController.class
+uk/co/marvel/character/endpoint/CharacterEndpoint.class
 uk/co/marvel/character/data/marvel/MarvelResponse.class

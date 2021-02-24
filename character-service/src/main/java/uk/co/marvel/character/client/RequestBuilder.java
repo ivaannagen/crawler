@@ -23,18 +23,17 @@ public class RequestBuilder {
         return characterAppConfig.getMARVEL_BASE_URL() + getCharactersEndpoint + getSecurityCredentials();
     }
 
-    public String getLimitAndOffset(Integer limit, Integer offset) {
+    private String getLimitAndOffset(Integer limit, Integer offset) {
         return "limit=" + limit + "&offset=" + offset;
     }
 
-    public String getSecurityCredentials() {
+    private String getSecurityCredentials() {
         return "&ts=" + characterAppConfig.getTIMESTAMP() +
                 "&apikey=" + characterAppConfig.getPUBLIC_KEY() +
                 "&hash=" + HashUtils.getHashValue((
                 characterAppConfig.getTIMESTAMP() +
                         characterAppConfig.getPRIVATE_KEY() +
-                        characterAppConfig.getPUBLIC_KEY()).
-                getBytes(), "MD5");
+                        characterAppConfig.getPUBLIC_KEY()));
     }
 
 }
