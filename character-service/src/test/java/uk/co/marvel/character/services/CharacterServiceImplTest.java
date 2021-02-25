@@ -15,9 +15,11 @@ import uk.co.marvel.character.exceptions.ExceptionMessages;
 import uk.co.marvel.character.repository.CharactersRepository;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.co.marvel.character.CharacterTestUtils.*;
@@ -69,5 +71,20 @@ public class CharacterServiceImplTest {
         var characterException = assertThrows(CharacterException.class, () -> underTest.fetchCharacterById(CHARACTER_ID));
         assertEquals(HttpStatus.NOT_FOUND, characterException.getStatus());
         assertEquals(ExceptionMessages.CHARACTER_ERROR, characterException.getReason());
+    }
+
+    @Test
+    public void shouldTestFetchCharacterIdsIsEmptyWhenResponseIsNull() {
+        var limit  = 100;
+        var offset = 0;
+
+        var responseContainer = buildMarvelResponseContainer();
+        var expectedCharacters = List.of(buildCharacter(), (Object) buildCharacter());
+        responseContainer.getData().setResults(expectedCharacters);
+
+        when(requestBuilder.buildGetCharactersRequest(limit, offset)).thenReturn(CHARACTER_REQUEST_URL);
+        when(restClient.get(CHARACTER_REQUEST_URL)).thenReturn(null);
+
+        assertTrue(underTest.fetchCharacters(limit, offset).isEmpty());
     }
 }
