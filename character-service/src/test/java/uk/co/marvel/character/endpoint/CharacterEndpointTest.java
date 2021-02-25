@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
-import uk.co.marvel.character.data.entities.Character;
 import uk.co.marvel.character.exceptions.CharacterException;
 import uk.co.marvel.character.services.CharacterServiceImpl;
 
@@ -16,6 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+import static uk.co.marvel.character.CharacterTestUtils.CHARACTER_ID;
+import static uk.co.marvel.character.CharacterTestUtils.buildCharacter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CharacterEndpointTest {
@@ -25,8 +26,6 @@ public class CharacterEndpointTest {
 
     @InjectMocks
     private CharacterEndpoint underTest;
-
-    private final Integer CHARACTER_ID  = 4444444;
 
     @Test
     public void shouldTestCharacterIdsAreRetrievedSuccessfully() {
@@ -58,15 +57,6 @@ public class CharacterEndpointTest {
         var characterException = assertThrows(CharacterException.class, () -> underTest.getCharacterById(1));
         assertEquals(HttpStatus.BAD_REQUEST, characterException.getStatus());
         assertEquals("Character ID must be of size [7]", characterException.getReason());
-    }
-
-    private Character buildCharacter() {
-        var character = new Character();
-        character.setId(CHARACTER_ID);
-        character.setName("best-man");
-        character.setDescription("some-description");
-
-        return character;
     }
 
 }

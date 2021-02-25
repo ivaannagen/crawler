@@ -13,10 +13,11 @@ uk/co/marvel/character/exceptions/ErrorMessage$ErrorMessageBuilder.class
 uk/co/marvel/character/exceptions/CharacterException.class
 uk/co/marvel/character/data/marvel/Thumbnail$ThumbnailBuilder.class
 uk/co/marvel/character/client/RestClient.class
-uk/co/marvel/character/services/CharacterServiceImpl$1.class
+uk/co/marvel/character/scheduling/FetchCharacterIdsJob.class
 uk/co/marvel/character/data/marvel/Thumbnail.class
 uk/co/marvel/character/configuration/ObjectMapperConfig.class
 uk/co/marvel/character/data/marvel/MarvelResponse$MarvelResponseBuilder.class
+uk/co/marvel/character/scheduling/Job.class
 uk/co/marvel/character/repository/AbstractCRUD.class
 uk/co/marvel/character/client/ResponseHandler.class
 uk/co/marvel/character/data/marvel/MarvelResponseContainer$MarvelResponseContainerBuilder.class

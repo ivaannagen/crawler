@@ -5,6 +5,7 @@
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/client/RequestBuilder.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/api/CharacterController.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/exceptions/CharacterException.java
+/Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/scheduling/FetchCharacterIdsJob.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/exceptions/ExceptionMessages.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/utils/RequestUtils.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/configuration/CharacterAppConfig.java
@@ -21,6 +22,7 @@
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/utils/HashUtils.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/data/marvel/MarvelResponse.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/client/ResponseHandler.java
+/Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/scheduling/Job.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/configuration/RestConfig.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/exceptions/ErrorMessage.java
 /Users/ivaannagen/character-service/character-service/src/main/java/uk/co/marvel/character/exceptions/ExternalServiceException.java
