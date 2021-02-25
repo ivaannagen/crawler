@@ -10,4 +10,5 @@ public class ExceptionMessages {
     public static final String CHARACTER_EXCEPTION_MESSAGE = "Failed to retrieve Character data with message: [%s]";
     public static final String MARVEL_ERROR = "Failed to retrieve data from Marvel";
     public static final String UNMARSHAL_ERROR = "Error unmarshalling JSON";
+    public static final String CHARACTER_ERROR = "Could not find Character!";
 }

@@ -14,6 +14,6 @@ marvel:
 
 jasypt:
   encryptor:
-    password: <placeholder>
+    password: V0PY6WU5AiG8gu
     ive-generator-classname: org.jasypt.NoIvGenerator
     bean: myStringEncryptor
