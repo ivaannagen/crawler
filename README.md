@@ -66,3 +66,6 @@ Docker
     password as an argument in to the script.
 
     Run: ./run-character-service.sh <password>
+    
+-------------------------
+
