@@ -1,7 +1,6 @@
 package uk.co.marvel.character.api;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ import java.util.List;
 
 
 @RestController
-@Validated
 @RequestMapping("characters")
 public class CharacterController {
 

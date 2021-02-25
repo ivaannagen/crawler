@@ -18,6 +18,7 @@ import uk.co.marvel.character.exceptions.ExceptionMessages;
 import uk.co.marvel.character.repository.CharactersRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,17 +69,22 @@ public class CharacterServiceImpl {
         List<MarvelResponse> marvelResponses = new ArrayList<>();
         MarvelResponse initialResponse = fetchCharacterIdsResponse(limit, offset);
         marvelResponses.add(initialResponse);
-        while (offset < initialResponse.getTotal()) {
-            offset += 100;
-            marvelResponses.add(fetchCharacterIdsResponse(limit, offset));
-        }
-        marvelResponses.forEach(mr -> {
-            var results = mr.getResults();
-            if (CollectionUtils.isNotEmpty(results)) {
-                var characters = responseHandler.getCharactersResponse(results);
-                charactersList.addAll(characters);
+        if(Objects.nonNull(initialResponse)) {
+            while (offset < initialResponse.getTotal()) {
+                offset += 100;
+                marvelResponses.add(fetchCharacterIdsResponse(limit, offset));
             }
-        });
+            marvelResponses.forEach(mr -> {
+                var results = mr.getResults();
+                if (CollectionUtils.isNotEmpty(results)) {
+                    var characters = responseHandler.getCharactersResponse(results);
+                    charactersList.addAll(characters);
+                }
+            });
+        }
+        else {
+            return Collections.emptyList();
+        }
 
         return charactersList;
     }

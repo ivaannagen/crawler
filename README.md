@@ -13,7 +13,8 @@ Instructions to Run
 GET /characters
     Returns character ids once they have been retrieved from Marvel
     A start-up background job will retrieve the ids from Marvel and cache them
-    The job is non blocking of the other api-calls
+    The job takes some time but is non blocking of the other api-calls
+    Refreshing the ids from Marvel on start-up makes sure we have no stale ids...
 
 GET /characters/{characterId}
     Returns character of given characterId from real-time Marvel API

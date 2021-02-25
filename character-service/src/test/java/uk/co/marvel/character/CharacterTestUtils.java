@@ -31,7 +31,7 @@ public class CharacterTestUtils {
         marvelResponse.setLimit(limit);
         marvelResponse.setOffset(0);
         marvelResponse.setCount(limit);
-        marvelResponse.setTotal(1400);
+        marvelResponse.setTotal(305);
         marvelResponse.setResults(List.of(buildCharacter(), buildCharacter()));
         marvelResponseContainer.setData(marvelResponse);
 
