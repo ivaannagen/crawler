@@ -1,9 +1,0 @@
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/client/RequestBuilderTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/utils/HashUtilsTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/endpoint/CharacterEndpointTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/repository/CharacterRepositoryTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/CharacterTestUtils.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/CharacterApplicationTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/client/ResponseHandlerTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/services/CharacterServiceImplTest.java
-/Users/ivaannagen/character-service/character-service/src/test/java/uk/co/marvel/character/client/RestClientTest.java
