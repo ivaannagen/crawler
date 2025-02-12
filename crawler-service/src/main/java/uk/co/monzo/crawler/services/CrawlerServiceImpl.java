@@ -63,7 +63,6 @@ public class CrawlerServiceImpl {
                         fetchUrls(nextLink, level++, maxLevel);
                     }
                 }
-
             }
 
         }
