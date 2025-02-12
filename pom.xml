@@ -6,11 +6,11 @@
 
     <!--CONFIG & NAMING -->
 
-    <groupId>uk.co.marvel</groupId>
-    <artifactId>character</artifactId>
+    <groupId>uk.co.monzo</groupId>
+    <artifactId>crawler</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Marvel :: Character</name>
-    <description>Character :: Service providing Character details</description>
+    <name>Monzo :: Crawler</name>
+    <description>Crawler :: Service providing Web Crawler</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,7 +25,7 @@
 
     <modules>
 
-        <module>character-service</module>
+        <module>crawler-service</module>
 
     </modules>
 

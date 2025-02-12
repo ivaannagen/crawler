@@ -1,6 +1,6 @@
-# character
+# crawler
 
-Character Project
+Crawler Project
 
 Application to supply information on Characters
 

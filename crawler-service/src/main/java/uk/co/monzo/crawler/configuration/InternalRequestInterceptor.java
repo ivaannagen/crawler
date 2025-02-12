@@ -1,0 +1,32 @@
+package uk.co.monzo.crawler.configuration;
+
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.stereotype.Component;
+import uk.co.monzo.crawler.exceptions.ExternalServiceException;
+import uk.co.monzo.crawler.utils.RequestUtils;
+
+import java.io.IOException;
+
+import static uk.co.monzo.crawler.exceptions.ExceptionMessages.MARVEL_ERROR;
+
+@Component
+@Log4j2
+public class InternalRequestInterceptor implements ClientHttpRequestInterceptor {
+
+    @Override
+    public ClientHttpResponse intercept(HttpRequest request, byte [] body, ClientHttpRequestExecution execution) {
+        try {
+        request.getHeaders().set(RequestUtils.CONTENT_TYPE_HEADER, RequestUtils.CONTENT_TYPE_VALUE);
+        return execution.execute(request, body);
+        }
+        catch(IOException ioe) {
+            throw new ExternalServiceException(HttpStatus.FAILED_DEPENDENCY, MARVEL_ERROR);
+        }
+    }
+
+}
