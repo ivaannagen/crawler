@@ -10,7 +10,6 @@ import uk.co.monzo.crawler.endpoint.CrawlerEndpointValidation;
 import uk.co.monzo.crawler.services.CrawlerService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 
@@ -34,14 +33,6 @@ public class CrawlerController {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateLevel(maxLevel);
         HashMap<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
-        return ResponseEntity.ok(paths);
-    }
-
-    @GetMapping("listcrawler")
-    public ResponseEntity<List<String>> getListCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
-        crawlerEndpointValidation.validateUrl(address);
-        crawlerEndpointValidation.validateLevel(maxLevel);
-        List<String> paths = crawlerService.fetchUrls2(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 
