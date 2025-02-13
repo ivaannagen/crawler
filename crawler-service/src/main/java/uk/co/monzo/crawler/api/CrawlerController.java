@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.co.monzo.crawler.endpoint.CrawlerEndpointValidation;
-import uk.co.monzo.crawler.services.CrawlerServiceImpl;
+import uk.co.monzo.crawler.services.CrawlerService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -17,18 +18,22 @@ import java.util.Set;
 @RequestMapping("crawler")
 public class CrawlerController {
 
-    @Autowired
-    private CrawlerEndpointValidation crawlerEndpointValidation;
+    private final CrawlerEndpointValidation crawlerEndpointValidation;
+
+    private final CrawlerService crawlerService;
 
     @Autowired
-    private CrawlerServiceImpl crawlerService;
+    public CrawlerController(CrawlerEndpointValidation crawlerEndpointValidation, CrawlerService crawlerService) {
+        this.crawlerEndpointValidation = crawlerEndpointValidation;
+        this.crawlerService = crawlerService;
+    }
 
 
     @GetMapping
-    public ResponseEntity<Set<String>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
+    public ResponseEntity<HashMap<String, Set<String>>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateLevel(maxLevel);
-        Set<String> paths = crawlerService.fetchUrls(address, 1, maxLevel);
+        HashMap<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 
@@ -36,7 +41,7 @@ public class CrawlerController {
     public ResponseEntity<List<String>> getListCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateLevel(maxLevel);
-        List<String> paths = crawlerService.fetchUrls2(address, 1, maxLevel);
+        List<String> paths = crawlerService.fetchUrls2(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 

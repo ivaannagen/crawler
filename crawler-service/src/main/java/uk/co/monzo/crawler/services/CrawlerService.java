@@ -5,7 +5,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -19,13 +18,12 @@ import uk.co.monzo.crawler.repository.CrawlerRepository;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Configuration
 @PropertySource("classpath:application.yml")
 @Service
 @Log4j2
-public class CrawlerServiceImpl {
+public class CrawlerService {
 
     @Autowired
     private RequestBuilder requestBuilder;
@@ -39,38 +37,13 @@ public class CrawlerServiceImpl {
     @Autowired
     private CrawlerRepository crawlerRepository;
 
-    private final String baseUrl = "https://monzo.com";
-
-    private final List<String> urls = new ArrayList<>();
-
-    private final Map<String, Set<String>> urlsMap = new HashMap<>();
-
-
-    public Set<String> fetchUrls(String url, int level, int maxLevel) {
-
-        if (level <= maxLevel) {
-
-            Optional<Document> nodeOpt = getDocument(url);
-
-            if (nodeOpt.isPresent()) {
-                Document node = nodeOpt.get();
-                urlsMap.put(url, Set.of());
-                Elements elements = node.select("a[href]");
-
-                for (Element element : elements) {
-                    String nextLink = element.absUrl("href");
-                    if (nextLink.startsWith(baseUrl) && !urlsMap.containsKey(nextLink)) {
-                        fetchUrls(nextLink, level++, maxLevel);
-                    }
-                }
-            }
-
-        }
-
-        return urlsMap.keySet();
+    public HashMap<String, Set<String>> fetchUrls(String url, int maxLevel) {
+        HashMap<String, Set<String>> visited = new HashMap<>();
+        return fetchUrls(url, url, visited, 1, maxLevel);
     }
 
-    public List<String> fetchUrls2(String url, int level, int maxLevel) {
+
+    public HashMap<String, Set<String>> fetchUrls(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
 
         if (level <= maxLevel) {
 
@@ -78,35 +51,48 @@ public class CrawlerServiceImpl {
 
             if (nodeOpt.isPresent()) {
                 Document node = nodeOpt.get();
+                Set<String> visitedNodes = new LinkedHashSet<>();
+                visited.putIfAbsent(url, visitedNodes);
+                for (Element element : node.select("a[href]")) {
+                    String nextLink = element.attr("abs:href");
+                    if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
+                        visitedNodes.add(nextLink);
+                        fetchUrls(nextLink, baseUrl, visited, level++, maxLevel);
+                    }
+                }
+                visited.computeIfPresent(url, (k, v) -> visitedNodes);
+            }
+
+        }
+
+        return visited;
+    }
+
+    public List<String> fetchUrls2(String url, int maxLevel) {
+        List<String> visited = new LinkedList<>();
+        return fetchUrls2(url, url, visited, 1, maxLevel);
+    }
+
+    private List<String> fetchUrls2(String url, String baseUrl, List<String> visited, int level, int maxLevel) {
+
+        if (level <= maxLevel) {
+
+            Optional<Document> nodeOpt = getDocument2(url);
+
+            if (nodeOpt.isPresent()) {
+                Document node = nodeOpt.get();
+                visited.add(url);
                 for (Element element : node.select("a[href]")) {
                     String nextLink = element.absUrl("href");
-                    if (!urls.contains(nextLink) && nextLink.startsWith(baseUrl)) {
-                        fetchUrls2(nextLink, level++, maxLevel);
+                    if (!visited.contains(nextLink) && nextLink.startsWith(baseUrl)) {
+                        fetchUrls2(nextLink, baseUrl, visited, level++, maxLevel);
                     }
                 }
             }
 
         }
 
-        return urls;
-    }
-
-    private Optional<Document> getDocument(String url) {
-        try {
-            Connection con = Jsoup.connect(url);
-            Document node = con.get();
-            int statusCode = con.response().statusCode();
-            if(statusCode == 200) {
-                return Optional.of(node);
-            }
-            else {
-                log.error(new CrawlerException(HttpStatus.FAILED_DEPENDENCY, String.format("Could not parse Html node with status code [%s]", statusCode)));
-            }
-        }
-        catch(IOException ioe) {
-            log.error(new CrawlerException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Could not parse Html node with path [%s]", ioe.getMessage())));
-        }
-        return Optional.empty();
+        return visited;
     }
 
     private Optional<Document> getDocument2(String url) {
@@ -115,7 +101,6 @@ public class CrawlerServiceImpl {
             Document node = con.get();
             int statusCode = con.response().statusCode();
             if(statusCode == 200) {
-                urls.add(url);
                 return Optional.of(node);
             }
             else {

@@ -4,13 +4,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import uk.co.monzo.crawler.services.CrawlerServiceImpl;
+import uk.co.monzo.crawler.services.CrawlerService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CrawlerEndpointValidationTest {
 
     @Mock
-    private CrawlerServiceImpl characterService;
+    private CrawlerService characterService;
 
     @InjectMocks
     private CrawlerEndpointValidation underTest;

@@ -11,7 +11,7 @@ import uk.co.monzo.crawler.configuration.RestConfig;
 import uk.co.monzo.crawler.data.marvel.MarvelResponseContainer;
 import uk.co.monzo.crawler.exceptions.ExternalServiceException;
 
-import static uk.co.monzo.crawler.exceptions.ExceptionMessages.MARVEL_ERROR;
+import static uk.co.monzo.crawler.exceptions.ExceptionMessages.CRAWLER_ERROR;
 
 @Component
 @Log4j2
@@ -32,7 +32,7 @@ public class RestClient {
                 log.info("Successful Response from Marvel");
                 return responseEntity.getBody();
             } else {
-                throw new ExternalServiceException(httpStatus, MARVEL_ERROR);
+                throw new ExternalServiceException(httpStatus, CRAWLER_ERROR);
             }
 
         } catch (Exception e) {

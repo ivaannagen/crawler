@@ -12,7 +12,7 @@ import uk.co.monzo.crawler.repository.CrawlerRepository;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CrawlerServiceImplTest {
+public class CrawlerServiceTest {
 
     @Mock
     private RequestBuilder requestBuilder;
@@ -27,7 +27,7 @@ public class CrawlerServiceImplTest {
     private CrawlerRepository characterRepository;
 
     @InjectMocks
-    private CrawlerServiceImpl underTest;
+    private CrawlerService underTest;
 
 //    @Test
 //    public void shouldExceptionThrownWhenRestClientHasNullResponse() {

@@ -12,7 +12,7 @@ import uk.co.monzo.crawler.utils.RequestUtils;
 
 import java.io.IOException;
 
-import static uk.co.monzo.crawler.exceptions.ExceptionMessages.MARVEL_ERROR;
+import static uk.co.monzo.crawler.exceptions.ExceptionMessages.CRAWLER_ERROR;
 
 @Component
 @Log4j2
@@ -25,7 +25,7 @@ public class InternalRequestInterceptor implements ClientHttpRequestInterceptor 
         return execution.execute(request, body);
         }
         catch(IOException ioe) {
-            throw new ExternalServiceException(HttpStatus.FAILED_DEPENDENCY, MARVEL_ERROR);
+            throw new ExternalServiceException(HttpStatus.FAILED_DEPENDENCY, CRAWLER_ERROR);
         }
     }
 
