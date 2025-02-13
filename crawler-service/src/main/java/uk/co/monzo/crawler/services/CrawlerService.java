@@ -21,11 +21,15 @@ import java.util.Set;
 @Log4j2
 public class CrawlerService {
 
-    @Autowired
-    private JsoupClient jsoupClient;
+    private final JsoupClient jsoupClient;
+
+    private final CrawlerRepository crawlerRepository;
 
     @Autowired
-    private CrawlerRepository crawlerRepository;
+    public CrawlerService(JsoupClient jsoupClient, CrawlerRepository crawlerRepository) {
+        this.jsoupClient = jsoupClient;
+        this.crawlerRepository = crawlerRepository;
+    }
 
     public HashMap<String, Set<String>> fetchUrls(String url, int maxLevel) {
         HashMap<String, Set<String>> visited = new HashMap<>();
