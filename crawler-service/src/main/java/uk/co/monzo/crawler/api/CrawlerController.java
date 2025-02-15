@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.co.monzo.crawler.services.CrawlerService;
 import uk.co.monzo.crawler.validation.CrawlerEndpointValidation;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -29,10 +29,10 @@ public class CrawlerController {
 
 
     @GetMapping
-    public ResponseEntity<HashMap<String, Set<String>>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
+    public ResponseEntity<Map<String, Set<String>>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(name = "maxLevel") Integer maxLevel) {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateMaxLevel(maxLevel);
-        HashMap<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
+        Map<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 

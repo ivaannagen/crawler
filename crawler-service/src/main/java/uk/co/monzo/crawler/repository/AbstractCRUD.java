@@ -26,7 +26,7 @@ public abstract class AbstractCRUD<K, V> {
     }
 
 
-    protected Optional<V> get(K id) {
+    public Optional<V> get(K id) {
         return Optional.of(cache.get(id));
     }
 
