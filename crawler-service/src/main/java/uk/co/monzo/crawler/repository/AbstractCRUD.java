@@ -27,7 +27,7 @@ public abstract class AbstractCRUD<K, V> {
 
 
     public Optional<V> get(K id) {
-        return Optional.of(cache.get(id));
+        return Optional.ofNullable(cache.get(id));
     }
 
     protected void update(K key, V entityToUpdate) {
