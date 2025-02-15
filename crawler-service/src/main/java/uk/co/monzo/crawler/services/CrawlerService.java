@@ -11,8 +11,6 @@ import uk.co.monzo.crawler.client.JsoupClient;
 import uk.co.monzo.crawler.repository.CrawlerRepository;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -23,7 +21,7 @@ public class CrawlerService {
 
     private final JsoupClient jsoupClient;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    // private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private final CrawlerRepository crawlerRepository;
 
@@ -31,6 +29,11 @@ public class CrawlerService {
     public CrawlerService(JsoupClient jsoupClient, CrawlerRepository crawlerRepository) {
         this.jsoupClient = jsoupClient;
         this.crawlerRepository = crawlerRepository;
+    }
+
+    public Map<String, Set<String>> refreshCache() {
+        crawlerRepository.getCache().clear();
+        return crawlerRepository.getCache();
     }
 
     public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
