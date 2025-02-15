@@ -8,7 +8,7 @@ import java.util.Set;
 public class CrawlerRepository extends AbstractCRUD<String, Set<String>> {
 
     @Override
-    public Set create(String url, Set<String> visited) {
+    public Set<String> create(String url, Set<String> visited) {
         return super.create(url, visited);
     }
 

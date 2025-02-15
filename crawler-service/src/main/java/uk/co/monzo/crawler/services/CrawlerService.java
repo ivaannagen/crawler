@@ -2,8 +2,9 @@ package uk.co.monzo.crawler.services;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -12,7 +13,6 @@ import uk.co.monzo.crawler.client.JsoupClient;
 import uk.co.monzo.crawler.repository.CrawlerRepository;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -35,60 +35,47 @@ public class CrawlerService {
         this.crawlerRepository = crawlerRepository;
     }
 
-    public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
-        return fetchUrls(url, url, new HashMap<>(), 1, maxLevel);
-    }
-
-
-    private Map<String, Set<String>> fetchUrls(String url, String baseUrl, int level, int maxLevel) {
-        if (level <= maxLevel) {
-            Set<String> visitedNodes = fetchUrls(url);
-
-            if (CollectionUtils.isNotEmpty(visitedNodes)) {
-                crawlerRepository.create(url, visitedNodes);
-                Map<String, Set<String>> visited = crawlerRepository.getCache();
-                Set<String> nextLinks = new LinkedHashSet<>();
-                for (String nextLink : visitedNodes) {
-                    if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
-                        nextLinks.add(nextLink);
-                        fetchUrls(nextLink, baseUrl, level++, maxLevel);
-                    }
-                }
-                visited.computeIfPresent(url, (k, v) -> nextLinks);
-            }
-
-        }
-
+    public Map<String, Set<String>> refreshCache() {
+        crawlerRepository.getCache().clear();
         return crawlerRepository.getCache();
     }
 
-    private HashMap<String, Set<String>> fetchUrls(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
+    public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
+        return fetchUrls(url, url, 1, maxLevel);
+    }
 
+
+    private Map<String, Set<String>> fetchUrls(String url, String baseUrl,  HashMap<String, Set<String>> visited, int level, int maxLevel) {
         if (level <= maxLevel) {
+            if (crawlerRepository.get(url).isEmpty()) {
 
+                Set<String> nodesToVisit = fetchUrls(url);
 
-            Optional<Document> nodeOpt = jsoupClient.getDocument(url);
-
-            if (nodeOpt.isPresent()) {
-                Document node = nodeOpt.get();
-
-                Set<String> visitedNodes = new LinkedHashSet<>();
-                visited.putIfAbsent(url, visitedNodes);
-
-                for (Element element : node.select("a[href]")) {
-                    String nextLink = element.attr("abs:href");
-
-                    if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
-                        visitedNodes.add(nextLink);
-                        fetchUrls(nextLink, baseUrl, visited, level++, maxLevel);
+                if (CollectionUtils.isNotEmpty(nodesToVisit)) {
+                    crawlerRepository.create(url, nodesToVisit);
+                    Map<String, Set<String>> visitedCache = crawlerRepository.getCache();
+                    Set<String> nextLinks = new LinkedHashSet<>();
+                    for (String nextLink : nodesToVisit) {
+                        if (!visited.containsKey(nextLink) && isWithinSubdomain(nextLink, baseUrl)) {
+                            nextLinks.add(nextLink);
+                            fetchUrls(nextLink, baseUrl, level++, maxLevel);
+                        }
                     }
+                    visited.computeIfPresent(url, (k, v) -> nextLinks);
                 }
-                visited.computeIfPresent(url, (k, v) -> visitedNodes);
-            }
 
+            }
         }
 
-        return visited;
+        return visisted;
+    }
+
+    private boolean isWithinSubdomain(String url, String baseUrl) {
+        String prefix = "www.";
+        if (url.contains(prefix)) {
+            return url.replace(prefix, StringUtils.EMPTY).startsWith(baseUrl.replace(prefix, StringUtils.EMPTY));
+        }
+        return url.startsWith(baseUrl.replace("www.", StringUtils.EMPTY));
     }
 
 
@@ -97,34 +84,13 @@ public class CrawlerService {
 
         if (nodeOpt.isPresent()) {
             Document node = nodeOpt.get();
+            Elements elements = node.select("a[href]");
 
-            return node.select("a[href]").stream()
+            return elements.stream()
                     .map(nextLink -> nextLink.attr("abs:href"))
                     .collect(Collectors.toSet());
         }
         return Set.of();
     }
-
-
-//    private void submitCrawlerWorkers(String url) {
-//        executor.execute(new CrawlerWorker(url));
-//    }
-//
-//    private class CrawlerWorker implements Runnable {
-//
-//        private final String url;
-//
-//        CrawlerWorker(String url) {
-//            this.url = url;
-//        }
-//
-//        @Override
-//        public void run() {
-//            Set<String> visited = fetchUrls(url);
-//            if(CollectionUtils.isNotEmpty(visited)) {
-//                crawlerRepository.create(url, fetchUrls(url));
-//            }
-//        }
-//    }
 
 }

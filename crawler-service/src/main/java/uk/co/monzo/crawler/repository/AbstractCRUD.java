@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Abstract CRUD - manages resources and can be used to concurrently persist entities.
  * Can be replaced by in:mem database as appose to local cache.
  *
+ * Need to set eviction policy to avoid stale data.
+ *
  * @param <K> The type of key we want to use for retrieving values.
  * @param <V> The type that we want to retrieve/persist.
  */
@@ -27,14 +29,14 @@ public abstract class AbstractCRUD<K, V> {
 
 
     public Optional<V> get(K id) {
-        return Optional.of(cache.get(id));
+        return Optional.ofNullable(cache.get(id));
     }
 
     protected void update(K key, V entityToUpdate) {
         cache.computeIfPresent(key, (k, v) -> entityToUpdate);
     }
 
-    protected void delete(K key) {
+    public void delete(K key) {
         cache.remove(key);
     }
 
