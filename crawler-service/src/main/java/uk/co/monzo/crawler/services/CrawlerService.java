@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 @PropertySource("classpath:application.yml")
@@ -22,6 +24,8 @@ import java.util.Set;
 public class CrawlerService {
 
     private final JsoupClient jsoupClient;
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private final CrawlerRepository crawlerRepository;
 
@@ -40,6 +44,9 @@ public class CrawlerService {
     private HashMap<String, Set<String>> fetchUrls(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
 
         if (level <= maxLevel) {
+
+            executor.submit(new CrawlerWorker(jsoupClient));
+            
 
             Optional<Document> nodeOpt = jsoupClient.getDocument(url);
 

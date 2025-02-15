@@ -4,13 +4,8 @@ server:
     8080
 
 monzo:
-  base_url: https://gateway.monzo.com/
-
-  public_key: ENC(hL9V4Vk6lwEnDg1M8Q3iAYexoMAnunnmdzdRynrQwtbJdtYYWTJrSJ3zc6t2Acod)
-
-  private_key: ENC(H8lQuuDy1N+ffAaXAgjrDqArWH0AvkZtR0WpHIL9J8n3J++BteL0hax//p0K5xTycVINo52wYV4=)
-
-  timestamp: 1
+  crawler:
+    max-level: 5
 
 jasypt:
   encryptor:

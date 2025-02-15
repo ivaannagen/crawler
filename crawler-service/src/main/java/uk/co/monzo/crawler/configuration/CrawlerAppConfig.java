@@ -12,16 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.yml")
 public class CrawlerAppConfig {
 
-    @Value("${monzo.base_url}")
-    private String MARVEL_BASE_URL;
-
-    @Value("${monzo.public_key}")
-    private String PUBLIC_KEY;
-
-    @Value("${monzo.private_key}")
-    private String PRIVATE_KEY;
-
-    @Value("${monzo.timestamp}")
-    private Integer TIMESTAMP;
+    @Value("${monzo.crawler.max-level}")
+    private int MAX_LEVEL;
 
 }

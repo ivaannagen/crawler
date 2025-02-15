@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Abstract CRUD - manages resources and can be used to concurrently persist entities.
+ * Can be replaced by in:mem database as appose to local cache.
  *
  * @param <K> The type of key we want to use for retrieving values.
  * @param <V> The type that we want to retrieve/persist.
