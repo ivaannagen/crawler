@@ -29,7 +29,7 @@ public class CrawlerController {
     public ResponseEntity<Map<String, Set<String>>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(defaultValue = "1", name = "maxLevel") Integer maxLevel) {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateMaxLevel(maxLevel);
-        Map<String, Set<String>> paths = crawlerService.fetchUrlsToVisit(address, maxLevel);
+        Map<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 

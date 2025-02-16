@@ -36,8 +36,8 @@ public class CrawlerService {
         return crawlerRepository.getCache();
     }
 
-    public Map<String, Set<String>> fetchUrlsToVisit(String url, int maxLevel) {
-        return fetchUrlsToVisit(url, url, new HashMap<>(), 1, maxLevel);
+    public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
+        return crawl(url, url, new HashMap<>(), 1, maxLevel);
     }
 
     Set<String> fetchUrlsToVisit(String url) {
@@ -53,7 +53,7 @@ public class CrawlerService {
         return Set.of();
     }
 
-    private Map<String, Set<String>> fetchUrlsToVisit(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
+    private Map<String, Set<String>> crawl(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
         if (level <= maxLevel) {
 
             Optional<Set<String>> visitedNodes = crawlerRepository.get(url);
@@ -71,7 +71,7 @@ public class CrawlerService {
                 for (String nextLink : nodesToVisit) {
                     if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
                         nextLinks.add(nextLink);
-                        fetchUrlsToVisit(nextLink, baseUrl, visited, level++, maxLevel);
+                        crawl(nextLink, baseUrl, visited, level++, maxLevel);
                     }
                 }
                 visited.computeIfPresent(url, (k, v) -> nextLinks);
