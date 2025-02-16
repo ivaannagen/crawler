@@ -36,42 +36,11 @@ public class CrawlerService {
         return crawlerRepository.getCache();
     }
 
-    public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
-        return fetchUrls(url, url, new HashMap<>(), 1, maxLevel);
+    public Map<String, Set<String>> fetchUrlsToVisit(String url, int maxLevel) {
+        return fetchUrlsToVisit(url, url, new HashMap<>(), 1, maxLevel);
     }
 
-
-    private Map<String, Set<String>> fetchUrls(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
-        if (level <= maxLevel) {
-
-            Optional<Set<String>> visitedNodes = crawlerRepository.get(url);
-            Set<String> nodesToVisit;
-            if(visitedNodes.isPresent()) {
-                nodesToVisit = visitedNodes.get();
-            }
-            else {
-                nodesToVisit = fetchUrls(url);
-            }
-
-            if (CollectionUtils.isNotEmpty(nodesToVisit)) {
-                visited.putIfAbsent(url, nodesToVisit);
-                Set<String> nextLinks = new LinkedHashSet<>();
-                for (String nextLink : nodesToVisit) {
-                    if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
-                        nextLinks.add(nextLink);
-                        fetchUrls(nextLink, baseUrl, visited, level++, maxLevel);
-                    }
-                }
-                visited.computeIfPresent(url, (k, v) -> nextLinks);
-                crawlerRepository.create(url, nextLinks);
-            }
-
-        }
-
-        return visited;
-    }
-
-    private Set<String> fetchUrls(String url) {
+    Set<String> fetchUrlsToVisit(String url) {
         Optional<Document> nodeOpt = jsoupClient.getDocument(url);
 
         if (nodeOpt.isPresent()) {
@@ -82,6 +51,36 @@ public class CrawlerService {
                     .collect(Collectors.toSet());
         }
         return Set.of();
+    }
+
+    private Map<String, Set<String>> fetchUrlsToVisit(String url, String baseUrl, HashMap<String, Set<String>> visited, int level, int maxLevel) {
+        if (level <= maxLevel) {
+
+            Optional<Set<String>> visitedNodes = crawlerRepository.get(url);
+            Set<String> nodesToVisit;
+            if(visitedNodes.isPresent()) {
+                nodesToVisit = visitedNodes.get();
+            }
+            else {
+                nodesToVisit = fetchUrlsToVisit(url);
+            }
+
+            if (CollectionUtils.isNotEmpty(nodesToVisit)) {
+                visited.putIfAbsent(url, nodesToVisit);
+                Set<String> nextLinks = new LinkedHashSet<>();
+                for (String nextLink : nodesToVisit) {
+                    if (!visited.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
+                        nextLinks.add(nextLink);
+                        fetchUrlsToVisit(nextLink, baseUrl, visited, level++, maxLevel);
+                    }
+                }
+                visited.computeIfPresent(url, (k, v) -> nextLinks);
+                crawlerRepository.create(url, nextLinks);
+            }
+
+        }
+
+        return visited;
     }
 
 

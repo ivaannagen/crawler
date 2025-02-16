@@ -12,6 +12,7 @@ import uk.co.monzo.crawler.exceptions.CrawlerException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.when;
+import static uk.co.monzo.crawler.CrawlerTestUtils.BASE_URL;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CrawlerEndpointValidationTest {
@@ -51,6 +52,18 @@ public class CrawlerEndpointValidationTest {
         assertThatThrownBy(() -> underTest.validateMaxLevel(6))
                 .isInstanceOf(CrawlerException.class)
                 .hasMessageContaining("Level to crawl is invalid");
+    }
+
+    @Test
+    public void shouldThrowInvalidUrl() {
+        assertThatThrownBy(() -> underTest.validateUrl("badurl.n-e-t"))
+                .isInstanceOf(CrawlerException.class)
+                .hasMessageContaining("Url to crawl is invalid");
+    }
+
+    @Test
+    public void shouldPassValidationForUrl() {
+        assertDoesNotThrow(() -> underTest.validateUrl(BASE_URL));
     }
 
 }

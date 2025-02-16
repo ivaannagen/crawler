@@ -1,6 +1,7 @@
 package uk.co.monzo.crawler.validation;
 
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

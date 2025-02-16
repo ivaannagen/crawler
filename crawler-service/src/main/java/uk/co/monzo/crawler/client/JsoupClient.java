@@ -20,8 +20,8 @@ public class JsoupClient {
             Connection con = Jsoup.connect(url);
             return handle(con);
         }
-        catch(IOException ioe) {
-            log.error(new CrawlerException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Could not parse Html node with path [%s]", ioe.getMessage())));
+        catch(IOException | IllegalArgumentException e) {
+            log.error(new CrawlerException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Could not parse Html node with path [%s]", e.getMessage())));
         }
         return Optional.empty();
     }
