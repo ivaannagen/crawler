@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=builder /home/crawler-service/target/crawler-application.jar ./crawler-service.jar
  
 ENTRYPOINT java -jar crawler-service.jar --jasypt.encryptor.password=$ENCRYPTION_PASSWORD
-EXPOSE 8080
+EXPOSE 8285

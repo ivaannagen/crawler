@@ -3,6 +3,7 @@ package uk.co.monzo.crawler.services;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections.CollectionUtils;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -45,8 +46,8 @@ public class CrawlerService {
 
         if (nodeOpt.isPresent()) {
             Document node = nodeOpt.get();
-
-            return node.select("a[href]").stream()
+            Elements elements = node.select("a[href]");
+            return elements.stream()
                     .map(nextLink -> nextLink.attr("abs:href"))
                     .collect(Collectors.toSet());
         }

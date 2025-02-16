@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("crawler")
-public class CrawlerController {
+public class CrawlerController implements CrawlerApi {
 
     private final CrawlerEndpointValidation crawlerEndpointValidation;
 
@@ -25,14 +25,16 @@ public class CrawlerController {
     }
 
 
+    @Override
     @GetMapping
-    public ResponseEntity<Map<String, Set<String>>> getCrawlerUrl(@RequestParam(name = "address") String address, @RequestParam(defaultValue = "1", name = "maxLevel") Integer maxLevel) {
+    public ResponseEntity<Map<String, Set<String>>> getVisited(@RequestParam(name = "address") String address, @RequestParam(defaultValue = "1", name = "maxLevel") Integer maxLevel) {
         crawlerEndpointValidation.validateUrl(address);
         crawlerEndpointValidation.validateMaxLevel(maxLevel);
         Map<String, Set<String>> paths = crawlerService.fetchUrls(address, maxLevel);
         return ResponseEntity.ok(paths);
     }
 
+    @Override
     @PutMapping("refresh")
     public ResponseEntity<Map<String, Set<String>>> refreshCrawler() {
         return ResponseEntity.ok(crawlerService.refreshCache());

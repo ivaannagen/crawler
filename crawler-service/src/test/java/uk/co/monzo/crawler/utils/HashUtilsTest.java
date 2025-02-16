@@ -18,6 +18,7 @@ public class HashUtilsTest {
 
     @Test
     public void shouldTestHashResultIsEmptyWhenInputIsMissing() {
-        assertEquals(StringUtils.EMPTY, HashUtils.getHashValue("").toLowerCase());
+        assertEquals(StringUtils.EMPTY, HashUtils.getHashValue(StringUtils.EMPTY).toLowerCase());
     }
+
 }

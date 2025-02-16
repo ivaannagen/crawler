@@ -1,30 +1,38 @@
 package uk.co.monzo.crawler.client;
 
+import org.jsoup.Connection;
+import org.jsoup.nodes.Document;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static uk.co.monzo.crawler.CrawlerTestUtils.BASE_URL;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JsoupClientTest {
 
-    @Mock
-    private RestTemplate restTemplate;
-
     @InjectMocks
     private JsoupClient underTest;
-//
-//    @Test
-//    public void shouldTestGestRequestIsInitiatedSuccessfully() {
-//        org.springframework.http.HttpEntity<String> httpEntity = new org.springframework.http.HttpEntity<>(null, null);
-//        var expectedMarvelResponseContainer = buildMarvelResponseContainer();
-//        when(restTemplate.exchange(eq(CHARACTER_REQUEST_URL), eq(HttpMethod.GET), eq(httpEntity),
-//                eq(MarvelResponseContainer.class))).thenReturn(ResponseEntity.ok(expectedMarvelResponseContainer));
-//
-//        var marvelResponseContainer = underTest.get(CHARACTER_REQUEST_URL);
-//        assertEquals(expectedMarvelResponseContainer, marvelResponseContainer);
-//
-//    }
+
+    @Test
+    public void shouldGetDocumentSuccessfully(){
+        Optional<Document> document = underTest.getDocument(BASE_URL);
+        assertThat(document).hasValueSatisfying(
+                doc -> {
+                    Connection.Response response = doc.connection().response();
+                    assertThat(response.statusCode()).isEqualTo(200);
+                }
+        );
+    }
+
+    @Test
+    public void shouldFailToGetDocument(){
+        Optional<Document> document = underTest.getDocument("ht:invalid-url");
+        assertThat(document).isEmpty();
+    }
 
 }

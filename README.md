@@ -2,36 +2,30 @@
 
 Crawler Project
 
-Application to supply information on Characters
-
-Currently focused on Marvel Characters
-
--------------------------
-
-Instructions to Run
+Application to Crawl URLs
+Provides a rest interface to get visited URLs for a given URL
 
 -------------------------
 
+Future Plans
 
-GET /characters
-    Returns character ids once they have been retrieved from Marvel
-    A start-up background job will retrieve the ids from Marvel and cache them
-    The job takes some time but is non blocking of the other api-calls
-    Refreshing the ids from Marvel on start-up makes sure we have no stale ids...
-
-GET /characters/{characterId}
-    Returns character of given characterId from real-time Marvel API
+- Improve performance but introducing CrawlerWorker Runnable delegated to finding urls
+- Introduce database layer - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
+- Local caching only works for a single instance of the Crawler application - distributed caching or database required for
+  use in a distributed system.
 
 -------------------------
 
 
-Please ask for Encryption Password
+GET /crawl
+    Returns all visited URLs up to a given depth
+    - address: queryParam to provide address to crawl
+    - maxLevel queryParam to provide max level to crawl
 
-Encryption done via Jasypt
-http://www.java2s.com/Code/Jar/j/Downloadjasypt191jar.htm
+PUT /crawl/refresh
+    Refreshes entire caching mechanism
 
 -------------------------
-
 
 Prerequisites
  - Java 11 and Maven
@@ -39,7 +33,19 @@ Prerequisites
  - You can run the application via your IDE,
    just remember to pass the encryption password
    in as an environment variable.
-   
+
+
+
+Please ask for Encryption Password
+
+Encryption done via Jasypt
+http://www.java2s.com/Code/Jar/j/Downloadjasypt191jar.htm
+
+
+-------------------------
+
+Instructions to Run
+
 -------------------------
 
 
