@@ -14,7 +14,7 @@ the links one node down on the tree will be level 1, and then level 2 etc..
 
 Improvements..
 
-- Improve performance by introducing CrawlerWorker Runnable delegated to finding urls
+- Improve performance by introducing CrawlerWorker Runnable delegated to finding urls (use thread ExecutorsService)
 - Introduce database layer (postgres) - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
 - Local caching only works for a single instance of the Crawler application - distributed caching or database required for
   use in a distributed system.

@@ -17,27 +17,17 @@ public abstract class AbstractCRUD<K, V> {
     private final ConcurrentHashMap<K, V> cache = new ConcurrentHashMap<>();
 
 
-    protected V create(K key, V entityToCreate) {
+    public void create(K key, V entityToCreate) {
         if (entityToCreate != null) {
             cache.putIfAbsent(key, entityToCreate);
         } else {
             System.out.println("Cannot persist null entity.");
         }
-
-        return entityToCreate;
     }
 
 
     public Optional<V> get(K id) {
         return Optional.ofNullable(cache.get(id));
-    }
-
-    protected void update(K key, V entityToUpdate) {
-        cache.computeIfPresent(key, (k, v) -> entityToUpdate);
-    }
-
-    public void delete(K key) {
-        cache.remove(key);
     }
 
     public ConcurrentHashMap<K, V> getCache() {

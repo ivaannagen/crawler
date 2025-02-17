@@ -22,8 +22,6 @@ public class CrawlerService {
 
     private final JsoupClient jsoupClient;
 
-    // private final ExecutorService executor = Executors.newFixedThreadPool(10);
-
     private final CrawlerRepository crawlerRepository;
 
     @Autowired
@@ -83,10 +81,5 @@ public class CrawlerService {
 
         return visited;
     }
-
-
-//    private void submitCrawlerWorkers(String url) {
-//        executor.execute(new CrawlerWorker(url));
-//    }
 
 }
