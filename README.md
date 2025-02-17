@@ -15,7 +15,7 @@ the links one node down on the tree will be level 1, and then level 2 etc..
 Improvements..
 
 - Improve performance by introducing CrawlerWorker Runnable delegated to finding urls (use thread ExecutorsService)
-- Introduce database layer (postgres) - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
+- Introduce database layer - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
 - Local caching only works for a single instance of the Crawler application - distributed caching or database required for
   use in a distributed system.
 - Application currently unencrypted, no concept of security context for user/principal
@@ -29,7 +29,7 @@ GET /crawl
     - maxLevel queryParam to provide max level to crawl
 
 PUT /crawl/refresh
-    Refreshes entire caching mechanism
+    Refreshes entire caching mechanism (helps with testing)
 
 -------------------------
 
