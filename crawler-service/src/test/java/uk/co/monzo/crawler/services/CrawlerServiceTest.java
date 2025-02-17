@@ -70,8 +70,7 @@ public class CrawlerServiceTest {
     public void shouldSuccessfullyCrawlUrls() {
         //crawl level 0
         String currentAccountRelative = "current-account/";
-        String legalRelative = "legal/";
-        setUpDocument(BASE_URL, List.of(currentAccountRelative, legalRelative));
+        setUpDocument(BASE_URL, List.of(currentAccountRelative));
 
         //crawl level 1
         String goals  = "goals/";
@@ -82,8 +81,33 @@ public class CrawlerServiceTest {
         assertThat(visited).containsExactlyInAnyOrderEntriesOf(
                 Map.of(
                         BASE_URL, Set.of(
-                                BASE_URL + currentAccountRelative,
-                                BASE_URL + legalRelative
+                                BASE_URL + currentAccountRelative
+                        ),
+                        BASE_URL + currentAccountRelative, Set.of(
+                                BASE_URL + currentAccountRelative + goals,
+                                BASE_URL + currentAccountRelative + interest
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void shouldSuccessfullyCrawlUrlsWithoutDuplicates() {
+        //crawl level 0
+        String currentAccountRelative = "current-account/";
+        setUpDocument(BASE_URL, List.of(currentAccountRelative));
+
+        //crawl level 1
+        String goals  = "goals/";
+        String goalsDuplicate  = "goals/";
+        String interest  = "interest/";
+        setUpDocument(BASE_URL + currentAccountRelative, List.of(goals, goalsDuplicate, interest));
+
+        Map<String, Set<String>> visited = underTest.fetchUrls(BASE_URL, 1);
+        assertThat(visited).containsExactlyInAnyOrderEntriesOf(
+                Map.of(
+                        BASE_URL, Set.of(
+                                BASE_URL + currentAccountRelative
                         ),
                         BASE_URL + currentAccountRelative, Set.of(
                                 BASE_URL + currentAccountRelative + goals,
@@ -108,6 +132,5 @@ public class CrawlerServiceTest {
 
         when(jsoupClient.getDocument(url)).thenReturn(Optional.of(document));
     }
-
 
 }
