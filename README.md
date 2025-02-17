@@ -58,8 +58,8 @@ Maven
 
 Jar
    - Run: mvn clean package
-     Locate jar file in /character-service/target
-     Run : java -jar character-application.jar --jasypt.encryptor.password=<password>
+     Locate jar file in /crawler-service/target
+     Run : java -jar crawler-application.jar --jasypt.encryptor.password=<password>
      
 -------------------------
 
@@ -71,7 +71,7 @@ Docker
     local containers, and build/run the container. You need to pass the encryption
     password as an argument in to the script.
 
-    Run: ./run-character-service.sh <password>
+    Run: ./run-crawler-service.sh <password>
     
 -------------------------
 
