@@ -32,7 +32,7 @@ public class CrawlerServiceTest {
     private JsoupClient jsoupClient;
 
     @Mock
-    private CrawlerRepository characterRepository;
+    private CrawlerRepository crawlerRepository;
 
     @InjectMocks
     private CrawlerService underTest;
