@@ -1,21 +1,27 @@
-# crawler
+# Crawler
 
 Crawler Project
 
-Application to Crawl URLs
-Provides a rest interface to get visited URLs for a given URL
+Application provides a rest interface to crawl a given url for linked urls
+
+Crawler Max Level
+Default = 1
+
+For a start node(url), the links to other nodes(urls) is considered as level 0,
+the links one node down on the tree will be level 1, and then level 2 etc..
 
 -------------------------
 
-Future Plans
+Improvements..
 
-- Improve performance but introducing CrawlerWorker Runnable delegated to finding urls
-- Introduce database layer - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
+- Improve performance by introducing CrawlerWorker Runnable delegated to finding urls
+- Introduce database layer (postgres) - application currently stateless (concurrent cache replaces an in memory db such as h2 in:mem)
 - Local caching only works for a single instance of the Crawler application - distributed caching or database required for
   use in a distributed system.
+- Application currently unencrypted, no concept of security context for user/principal
 
 -------------------------
-
+API Interface
 
 GET /crawl
     Returns all visited URLs up to a given depth
@@ -30,39 +36,11 @@ PUT /crawl/refresh
 Prerequisites
  - Java 11 and Maven
  - Docker
- - You can run the application via your IDE,
-   just remember to pass the encryption password
-   in as an environment variable.
-
-
-
-Please ask for Encryption Password
-
-Encryption done via Jasypt
-http://www.java2s.com/Code/Jar/j/Downloadjasypt191jar.htm
-
+ - You can also run the application via IDE
 
 -------------------------
 
 Instructions to Run
-
--------------------------
-
-
-Maven
-   - Run the following commands...
-     mvn clean install
-     mvn spring-boot:run -Dspring-boot.run.arguments=--jasypt.encryptor.password=<password>
-     
--------------------------
-
-Jar
-   - Run: mvn clean package
-     Locate jar file in /crawler-service/target
-     Run : java -jar crawler-application.jar --jasypt.encryptor.password=<password>
-     
--------------------------
-
 
 Docker
 
@@ -72,6 +50,12 @@ Docker
     password as an argument in to the script.
 
     Run: ./run-crawler-service.sh <password>
-    
--------------------------
 
+Alternatively...
+
+Jar
+   - Run: mvn clean package
+     Locate jar file in /crawler-service/target
+     Run : java -jar crawler-application.jar
+     
+-------------------------
