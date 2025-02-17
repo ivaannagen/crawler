@@ -6,9 +6,3 @@ server:
 monzo:
   crawler:
     max-level: 5
-
-jasypt:
-  encryptor:
-    password: V0PY6WU5AiG8gu
-    ive-generator-classname: org.jasypt.NoIvGenerator
-    bean: myStringEncryptor
