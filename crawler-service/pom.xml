@@ -13,10 +13,6 @@
     <name>Crawler :: Service</name>
     <description>Service :: Business logic and overall program flow for Web Crawler</description>
 
-    <properties>
-        <jasypt.spring.boot.version>3.0.3</jasypt.spring.boot.version>
-    </properties>
-
     <build>
 
         <!-- BUILD TOOLS -->
@@ -127,21 +123,6 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.9</version>
-        </dependency>
-
-
-        <!-- ENCRYPTION -->
-
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.spring.boot.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot</artifactId>
-            <version>${jasypt.spring.boot.version}</version>
         </dependency>
 
         <!-- HTML PARSING -->
