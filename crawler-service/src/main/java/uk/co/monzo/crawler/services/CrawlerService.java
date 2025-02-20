@@ -12,6 +12,8 @@ import uk.co.monzo.crawler.client.JsoupClient;
 import uk.co.monzo.crawler.repository.CrawlerRepository;
 
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -23,6 +25,12 @@ public class CrawlerService {
     private final JsoupClient jsoupClient;
 
     private final CrawlerRepository crawlerRepository;
+
+    private final BlockingQueue<String> queue = new LinkedBlockingQueue();
+
+    private final AtomicInteger counter = new AtomicInteger(1);
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Autowired
     public CrawlerService(JsoupClient jsoupClient, CrawlerRepository crawlerRepository) {
@@ -36,7 +44,15 @@ public class CrawlerService {
     }
 
     public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
-        return crawl(url, url, new HashMap<>(), 1, maxLevel);
+        try {
+            queue.put(url);
+        }
+        catch (InterruptedException ie) {
+            System.out.println(ie.getMessage());
+        }
+        executor.execute(new CrawlerWorker(1, maxLevel));
+
+        return crawlerRepository.getCache();
     }
 
     Set<String> fetchUrlsToVisit(String url) {
@@ -80,6 +96,43 @@ public class CrawlerService {
         }
 
         return visited;
+    }
+
+    class CrawlerWorker implements Runnable {
+
+        private int level;
+
+        private final int maxLevel;
+
+        CrawlerWorker(int level, int maxLevel) {
+            this.level = level;
+            this.maxLevel = maxLevel;
+        }
+
+        @Override
+        public void run() {
+            String baseUrl;
+            try {
+                baseUrl = queue.take();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            ConcurrentHashMap<String, Set<String>> cache = crawlerRepository.getCache();
+
+                Set<String> nodesToVisit = fetchUrlsToVisit(baseUrl);
+                if (CollectionUtils.isNotEmpty(nodesToVisit)) {
+                    cache.putIfAbsent(baseUrl, nodesToVisit);
+                    Set<String> nextLinks = new LinkedHashSet<>();
+                    for (String nextLink : nodesToVisit) {
+                        if (!cache.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
+                            nextLinks.add(nextLink);
+                            queue.add(nextLink);
+                        }
+                    }
+                    cache.computeIfPresent(baseUrl, (k, v) -> nextLinks);
+                }
+            }
+
     }
 
 }
