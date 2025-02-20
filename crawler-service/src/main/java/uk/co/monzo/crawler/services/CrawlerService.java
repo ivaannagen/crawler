@@ -44,15 +44,23 @@ public class CrawlerService {
     }
 
     public Map<String, Set<String>> fetchUrls(String url, int maxLevel) {
+        fetchUrlsDriver(url, maxLevel);
+        return crawlerRepository.getCache();
+    }
+
+    public void fetchUrlsDriver(String url, int maxLevel) {
         try {
             queue.put(url);
-        }
-        catch (InterruptedException ie) {
+            while (true) {
+                try {
+                    new CrawlerWorker(1, maxLevel, queue);
+                } catch (InterruptedException ie) {
+                    System.out.println(ie.getMessage());
+                }
+            }
+        } catch (InterruptedException ie) {
             System.out.println(ie.getMessage());
         }
-        executor.execute(new CrawlerWorker(1, maxLevel));
-
-        return crawlerRepository.getCache();
     }
 
     Set<String> fetchUrlsToVisit(String url) {
@@ -73,10 +81,9 @@ public class CrawlerService {
 
             Optional<Set<String>> visitedNodes = crawlerRepository.get(url);
             Set<String> nodesToVisit;
-            if(visitedNodes.isPresent()) {
+            if (visitedNodes.isPresent()) {
                 nodesToVisit = visitedNodes.get();
-            }
-            else {
+            } else {
                 nodesToVisit = fetchUrlsToVisit(url);
             }
 
@@ -98,41 +105,42 @@ public class CrawlerService {
         return visited;
     }
 
-    class CrawlerWorker implements Runnable {
+    class CrawlerWorker {
+
+        private BlockingQueue<String> queue;
 
         private int level;
 
         private final int maxLevel;
 
-        CrawlerWorker(int level, int maxLevel) {
+        CrawlerWorker(int level, int maxLevel, BlockingQueue<String> queue) throws InterruptedException {
             this.level = level;
             this.maxLevel = maxLevel;
+            this.queue = queue;
+            run();
         }
 
-        @Override
-        public void run() {
+        public void run() throws InterruptedException {
             String baseUrl;
-            try {
-                baseUrl = queue.take();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            baseUrl = queue.take();
             ConcurrentHashMap<String, Set<String>> cache = crawlerRepository.getCache();
-
-                Set<String> nodesToVisit = fetchUrlsToVisit(baseUrl);
-                if (CollectionUtils.isNotEmpty(nodesToVisit)) {
-                    cache.putIfAbsent(baseUrl, nodesToVisit);
-                    Set<String> nextLinks = new LinkedHashSet<>();
-                    for (String nextLink : nodesToVisit) {
-                        if (!cache.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
-                            nextLinks.add(nextLink);
-                            queue.add(nextLink);
-                        }
-                    }
-                    cache.computeIfPresent(baseUrl, (k, v) -> nextLinks);
-                }
+            if(cache.size() == 10) {
+                return;
             }
 
+            Set<String> nodesToVisit = fetchUrlsToVisit(baseUrl);
+            if (CollectionUtils.isNotEmpty(nodesToVisit)) {
+                cache.putIfAbsent(baseUrl, nodesToVisit);
+                Set<String> nextLinks = new LinkedHashSet<>();
+                for (String nextLink : nodesToVisit) {
+                    if (!cache.containsKey(nextLink) && nextLink.startsWith(baseUrl)) {
+                        nextLinks.add(nextLink);
+                        queue.add(nextLink);
+                    }
+                }
+                cache.computeIfPresent(baseUrl, (k, v) -> nextLinks);
+            }
+        }
     }
 
 }
