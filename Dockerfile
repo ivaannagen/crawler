@@ -7,7 +7,7 @@ RUN mvn clean package
 FROM openjdk:11.0.4-slim as server
 VOLUME /temp
 WORKDIR /app
-COPY --from=builder /home/crawler-service/target/crawler-application.jar ./crawler-service.jar
+COPY --from=builder /home/customer-service/target/customer-application.jar ./customer-service.jar
  
-ENTRYPOINT java -jar crawler-service.jar --jasypt.encryptor.password=$ENCRYPTION_PASSWORD
+ENTRYPOINT java -jar customer-service.jar --jasypt.encryptor.password=$ENCRYPTION_PASSWORD
 EXPOSE 8285

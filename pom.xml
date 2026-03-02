@@ -6,11 +6,11 @@
 
     <!--CONFIG & NAMING -->
 
-    <groupId>uk.co.monzo</groupId>
-    <artifactId>crawler</artifactId>
+    <groupId>uk.co.allica</groupId>
+    <artifactId>customer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Monzo :: Crawler</name>
-    <description>Crawler :: Service providing Web Crawler</description>
+    <name>Allica :: Customer</name>
+    <description>Customer :: Service to manage customer details</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,7 +25,7 @@
 
     <modules>
 
-        <module>crawler-service</module>
+        <module>customer-service</module>
 
     </modules>
 

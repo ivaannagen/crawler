@@ -1,8 +1,0 @@
-
-server:
-  port:
-    8285
-
-monzo:
-  crawler:
-    max-level: 5

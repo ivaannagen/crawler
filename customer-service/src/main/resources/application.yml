@@ -1,0 +1,8 @@
+
+server:
+  port:
+    8285
+
+allica:
+  customer:
+    max-level: 5
