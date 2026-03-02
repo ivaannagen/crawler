@@ -2,12 +2,11 @@ package uk.co.allica.customer.api;
 
 import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
 public interface CustomerApi {
 
-    ResponseEntity<Customer> getCustomer();
+    ResponseEntity<CustomerResponse> getCustomer(UUID uuid);
 
-    ResponseEntity<Customer> createCustomer(Customer customer);
+    ResponseEntity<UUID> createCustomer(CustomerRequest customerRequest);
 }

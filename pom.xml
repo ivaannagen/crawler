@@ -7,10 +7,10 @@
     <!--CONFIG & NAMING -->
 
     <groupId>uk.co.allica</groupId>
-    <artifactId>customer</artifactId>
+    <artifactId>customerRequest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Allica :: Customer</name>
-    <description>Customer :: Service to manage customer details</description>
+    <description>Customer :: Service to manage customerRequest details</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,7 +25,7 @@
 
     <modules>
 
-        <module>customer-service</module>
+        <module>customerRequest-service</module>
 
     </modules>
 

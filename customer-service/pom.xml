@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>customer</artifactId>
+        <artifactId>customerRequest</artifactId>
         <groupId>uk.co.allica</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>customer-service</artifactId>
+    <artifactId>customerRequest-service</artifactId>
     <name>Customer :: Service</name>
     <description>Service :: Business logic and overall program flow for Customers</description>
 
@@ -17,14 +17,14 @@
 
         <!-- BUILD TOOLS -->
 
-        <finalName>customer-application</finalName>
+        <finalName>customerRequest-application</finalName>
 
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <configuration>
-                        <mainClass>uk.co.allica.customer.CustomerApplication</mainClass>
+                        <mainClass>uk.co.allica.customerRequest.CustomerApplication</mainClass>
                     </configuration>
                     <executions>
                         <execution>
@@ -39,6 +39,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.21.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
                 </plugin>
 
             </plugins>
@@ -125,11 +130,22 @@
             <version>4.5.9</version>
         </dependency>
 
-        <!-- HTML PARSING -->
+        <!-- DATABASE -->
+
         <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.18.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
 
         <!-- OTHER -->

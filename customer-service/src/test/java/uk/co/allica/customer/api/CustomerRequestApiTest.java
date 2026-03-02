@@ -9,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.co.allica.customer.services.CustomerService;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CustomerApiTest {
+class CustomerRequestApiTest {
 
     @MockBean
     private CustomerService customerService;
@@ -26,10 +28,10 @@ class CustomerApiTest {
 
     @Test
     void refreshCustomer() {
-        ResponseEntity<Customer> response = apiUnderTest.getCustomer();
+        ResponseEntity<CustomerRequest> response = apiUnderTest.getCustomer(UUID.randomUUID());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Customer customer = response.getBody();
-        assertThat(customer).isNotNull();
+        CustomerRequest customerRequest = response.getBody();
+        assertThat(customerRequest).isNotNull();
     }
 
     @Test

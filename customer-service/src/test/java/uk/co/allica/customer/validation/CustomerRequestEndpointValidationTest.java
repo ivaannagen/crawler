@@ -11,7 +11,7 @@ import uk.co.allica.customer.configuration.CustomerAppConfig;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerEndpointValidationTest {
+public class CustomerRequestEndpointValidationTest {
 
     @Mock
     private CustomerAppConfig customerAppConfig;

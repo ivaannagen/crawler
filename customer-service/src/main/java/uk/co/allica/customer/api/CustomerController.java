@@ -2,11 +2,14 @@ package uk.co.allica.customer.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import uk.co.allica.customer.mapper.CustomerMapper;
+import uk.co.allica.customer.model.Customer;
 import uk.co.allica.customer.services.CustomerService;
 import uk.co.allica.customer.validation.CustomerEndpointValidation;
+
+import javax.validation.Valid;
+import java.util.UUID;
 
 
 @RestController
@@ -25,16 +28,17 @@ public class CustomerController implements CustomerApi {
 
 
     @Override
-    @GetMapping
-//    @RequestParam(name = "address") String address, @RequestParam(defaultValue = "1", name = "maxLevel") Integer maxLevel
-    public ResponseEntity<Customer> getCustomer() {
-
-        return ResponseEntity.ok(null);
+    @GetMapping("{uuid}")
+    public ResponseEntity<CustomerResponse> getCustomer(@PathVariable UUID uuid) {
+        Customer customer = customerService.getCustomer(uuid);
+        return ResponseEntity.ok(CustomerMapper.map(customer));
     }
 
     @Override
-    public ResponseEntity<Customer> createCustomer(Customer customer) {
-        return ResponseEntity.ok(null);
+    @PostMapping
+    public ResponseEntity<UUID> createCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
+        UUID customerUUID = customerService.createCustomer(CustomerMapper.map(customerRequest));
+        return ResponseEntity.ok(customerUUID);
     }
 
 }
