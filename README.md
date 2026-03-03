@@ -11,10 +11,10 @@ Improvements
 -------------------------
 API Interface
 
-POST /customerRequest
-    Creates a customerRequest
+POST /customer
+    Creates a customer
 
-GET /customerRequest
+GET /customer
     Retrieves all customers
 
 -------------------------
@@ -35,13 +35,13 @@ Docker
     local containers, and build/run the container. You need to pass the encryption
     password as an argument in to the script.
 
-    Run: ./run-customerRequest-service.sh <password>
+    Run: ./run-customer-service.sh <password>
 
 Alternatively...
 
 Jar
    - Run: mvn clean package
-     Locate jar file in /customerRequest-service/target
-     Run : java -jar customerRequest-application.jar
+     Locate jar file in /customer-service/target
+     Run : java -jar customer-application.jar
      
 -------------------------

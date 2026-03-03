@@ -1,9 +1,12 @@
 package uk.co.allica.customer.repository;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import uk.co.allica.customer.model.Customer;
 
-import java.util.Set;
+import java.util.UUID;
 
-@Component
-public class CustomerRepository extends AbstractCRUD<String, Set<String>> {
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+    boolean existsCustomerByEmail(String email);
 }

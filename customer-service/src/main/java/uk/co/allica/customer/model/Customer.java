@@ -1,13 +1,26 @@
 package uk.co.allica.customer.model;
 
+import lombok.Getter;
+
+import javax.persistence.*;
+import java.util.UUID;
+
+@Entity(name = "customer")
+@Table(name = "CUSTOMER")
+@Getter
 public class Customer {
 
-    private final String firstName;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private UUID id;
 
-    private final String lastName;
+    @Column(name = "first_name")
+    private String firstName;
 
-    private final String email;
+    @Column(name = "last_name")
+    private String lastName;
 
+    private String email;
 
     public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -15,16 +28,6 @@ public class Customer {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+    public Customer() {}
 
 }

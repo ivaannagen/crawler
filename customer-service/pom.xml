@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>customerRequest</artifactId>
+        <artifactId>customer</artifactId>
         <groupId>uk.co.allica</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>customerRequest-service</artifactId>
+    <artifactId>customer-service</artifactId>
     <name>Customer :: Service</name>
     <description>Service :: Business logic and overall program flow for Customers</description>
 
@@ -17,14 +17,14 @@
 
         <!-- BUILD TOOLS -->
 
-        <finalName>customerRequest-application</finalName>
+        <finalName>customer-application</finalName>
 
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <configuration>
-                        <mainClass>uk.co.allica.customerRequest.CustomerApplication</mainClass>
+                        <mainClass>uk.co.allica.customer.CustomerApplication</mainClass>
                     </configuration>
                     <executions>
                         <execution>
@@ -135,7 +135,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>3.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -146,6 +150,12 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version> 5.2.1.Final</version>
         </dependency>
 
         <!-- OTHER -->

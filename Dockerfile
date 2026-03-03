@@ -7,7 +7,7 @@ RUN mvn clean package
 FROM openjdk:11.0.4-slim as server
 VOLUME /temp
 WORKDIR /app
-COPY --from=builder /home/customerRequest-service/target/customerRequest-application.jar ./customerRequest-service.jar
+COPY --from=builder /home/customer-service/target/customer-application.jar ./customer-service.jar
  
-ENTRYPOINT java -jar customerRequest-service.jar --jasypt.encryptor.password=$ENCRYPTION_PASSWORD
+ENTRYPOINT java -jar customer-service.jar
 EXPOSE 8285

@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import uk.co.allica.customer.repository.CustomerRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerRequestServiceTest {
+public class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
